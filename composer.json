@@ -2,6 +2,8 @@
     "name": "jacobbuck/silverstripe-color-thief",
     "description": "Grabs the dominant color or a representative color palette from an image.",
     "license": "MIT",
+    "type": "silverstripe-module",
+    "keywords": ["silverstripe", "image"],
     "authors": [
         {
             "name": "Jacob Buck",
@@ -9,6 +11,7 @@
         }
     ],
     "require": {
+        "silverstripe/framework": "~3.1",
         "ksubileau/color-thief-php": "~1.1"
     }
 }
