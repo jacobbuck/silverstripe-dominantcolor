@@ -1,5 +1,5 @@
 {
-    "name": "jacobbuck/csilverstripe-color-thief",
+    "name": "jacobbuck/silverstripe-color-thief",
     "description": "Grabs the dominant color or a representative color palette from an image.",
     "license": "MIT",
     "authors": [
