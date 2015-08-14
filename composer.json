@@ -1,0 +1,14 @@
+{
+    "name": "jacobbuck/csilverstripe-color-thief",
+    "description": "Grabs the dominant color or a representative color palette from an image.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jacob Buck",
+            "email": "buck.jacob@gmail.com"
+        }
+    ],
+    "require": {
+        "ksubileau/color-thief-php": "~1.1"
+    }
+}
