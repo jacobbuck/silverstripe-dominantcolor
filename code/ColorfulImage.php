@@ -8,7 +8,7 @@
 
 use ColorThief\ColorThief;
 
-class ColorThiefImage extends Image {
+class ColorfulImage extends Image {
 
 	private static $db = array(
 		'Color' => 'Varchar(6)'

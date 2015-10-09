@@ -1,6 +1,6 @@
 {
-    "name": "jacobbuck/silverstripe-color-thief",
-    "description": "Grabs the dominant color or a representative color palette from an image.",
+    "name": "jacobbuck/silverstripe-colorfulimage",
+    "description": "Enhance the Image class by providing the dominant color or a representative color palette from an image, and the contrast color of the dominant color.",
     "license": "MIT",
     "type": "silverstripe-module",
     "keywords": ["silverstripe", "image"],

@@ -1,6 +1,6 @@
-ColorThiefImage:
+ColorfulImage:
   quality: 10
 
 Injector:
   Image:
-    class: ColorThiefImage
+    class: ColorfulImage
