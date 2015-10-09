@@ -11,7 +11,7 @@ use ColorThief\ColorThief;
 class ColorThiefImage extends Image {
 
 	private static $db = array(
-		'Color' => 'Varchar(7)'
+		'Color' => 'Varchar(6)'
 	);
 
 	/**
@@ -25,14 +25,19 @@ class ColorThiefImage extends Image {
 		return $color;
 	}
 
+	public function getContrastColor() {
+		return self::getContrastYIQ($this->Color);
+	}
+
 	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 
 		$pallete = $this->getDominantColorPalette();
-		$options = array();
 
+		$options = array();
 		foreach ($pallete as $color) {
-			$options[$color] = "<span style='display:inline-block;width:1em;height:1em;background-color:$color;'></span> $color";
+			$contrast = self::getContrastYIQ($color);
+			$options[$color] = "<span style='display:inline-block;padding:0.2em 0.4em;background-color:#$color;color:$contrast'>$color</span>";
 		}
 
 		$fields->AddFieldToTab("Root.Main",
@@ -40,7 +45,7 @@ class ColorThiefImage extends Image {
 				$name = 'Color',
 				$title = 'Color',
 				$source = $options,
-				$value = $this->getField('Color')
+				$value = $this->Color
 			)
 		);
 
@@ -62,31 +67,56 @@ class ColorThiefImage extends Image {
 		parent::onBeforeWrite();
 	}
 
-	private function getDominantColor() {
+	protected function getDominantColor() {
 		$c = ColorThief::getColor(
-			$this->getFullPath(),
-			$this->config()->quality
+			$sourceImage = $this->getFullPath(),
+			$quality = $this->config()->quality
 		);
-		if ($c) {
-			$color = self::toHex($c);
-		} else {
-			$color = $this->config()->fallback_color;
-		}
-		return $color;
+		return self::arrayToHex($c);
 	}
 
-	private function getDominantColorPalette() {
+	protected function getDominantColorPalette($colorCount = 5) {
 		$c = ColorThief::getPalette(
-			$this->getFullPath(),
-			$this->config()->quality
+			$sourceImage = $this->getFullPath(),
+			$colorCount = $colorCount,
+			$quality = $this->config()->quality
 		);
-		return array_map(array(get_class($this), 'toHex'), $c);
+		return array_map(array(get_class($this), 'arrayToHex'), $c);
 	}
 
-	private static function toHex($color) {
+	/**
+	 *
+	 * @see https://24ways.org/2010/calculating-color-contrast/
+	 */
+	protected static function getContrastYIQ($color) {
+		$color = self::hexToArray($color);
+		$yiq = (($color[0]*299)+($color[1]*587)+($color[2]*114))/1000;
+		return ($yiq >= 128) ? 'black' : 'white';
+	}
+
+	/**
+	 * Converts a color array into a hex string
+	 * @param $color (array) (red, blue, green)
+	 * @return (string)
+	 */
+	private static function arrayToHex($color) {
+		if (empty($color)) {
+			return NULL;
+		}
 		$hex = dechex(($color[0]<<16)|($color[1]<<8)|$color[2]);
-		$hex = str_pad($hex, 6, '0', STR_PAD_LEFT);
-		return "#$hex";
+		return str_pad($hex, 6, '0', STR_PAD_LEFT);
+	}
+
+	/**
+	 * Converts a hex string to color array
+	 * @param $color (string)
+	 * @return (array) (red, blue, green)
+	 */
+	private static function hexToArray($color) {
+		$r = hexdec(substr($color, 0, 2));
+		$g = hexdec(substr($color, 2, 2));
+		$b = hexdec(substr($color, 4, 2));
+		return array($r, $g, $b);
 	}
 
 }

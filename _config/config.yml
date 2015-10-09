@@ -1,5 +1,4 @@
 ColorThiefImage:
-  fallback_color: '#000000'
   quality: 10
 
 Injector:
