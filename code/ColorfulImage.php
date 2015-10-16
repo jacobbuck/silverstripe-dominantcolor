@@ -36,12 +36,11 @@ class ColorfulImage extends Image {
 
 		$options = array();
 		foreach ($pallete as $color) {
-			$contrast = self::getContrastYIQ($color);
-			$options[$color] = "<span style='display:inline-block;padding:0.2em 0.4em;background-color:#$color;color:$contrast'>$color</span>";
+			$options[$color] = "#$color";
 		}
 
 		$fields->AddFieldToTab("Root.Main",
-			OptionsetField::create(
+			ColorPaletteField::create(
 				$name = 'Color',
 				$title = 'Color',
 				$source = $options,
