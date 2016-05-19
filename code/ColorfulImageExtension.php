@@ -76,7 +76,7 @@ class ColorfulImageExtension extends DataExtension {
 	public function dominantColor() {
 		$c = ColorThief::getColor(
 			$sourceImage = $this->owner->getFullPath(),
-			$quality = Config::inst()->get($this->class, 'quality')
+			$quality = Config::inst()->get(get_class($this), 'quality')
 		);
 		return self::array_to_hex($c);
 	}
@@ -90,7 +90,7 @@ class ColorfulImageExtension extends DataExtension {
 		$c = ColorThief::getPalette(
 			$sourceImage = $this->owner->getFullPath(),
 			$colorCount = $colorCount,
-			$quality = Config::inst()->get($this->class, 'quality')
+			$quality = Config::inst()->get(get_class($this), 'quality')
 		);
 		return array_map(array(get_class($this), 'array_to_hex'), $c);
 	}
