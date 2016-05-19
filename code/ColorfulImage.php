@@ -15,31 +15,40 @@ class ColorfulImage extends Image {
 	);
 
 	/**
-	 * @return string
+	 * Overload the Color field to get the dominant color if not set
+	 * @return String
 	 */
 	public function getColor() {
 		$color = $this->getField('Color');
 		if ($color === NULL) {
-			$color = $this->getDominantColor();
+			$color = $this->dominantColor();
 		}
 		return $color;
 	}
 
+	/**
+	 * Get contrast color to `Color` field
+	 * @return String 'black' or 'white'
+	 */
 	public function getContrastColor() {
-		return self::getContrastYIQ($this->Color);
+		return self::get_contrast_yiq($this->Color);
 	}
 
+	/**
+	 * Add cms field for Color db field
+	 * @return FieldList
+	 */
 	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 
-		$pallete = $this->getDominantColorPalette();
+		$pallete = $this->dominantColorPalette();
 
 		$options = array();
 		foreach ($pallete as $color) {
 			$options[$color] = "#$color";
 		}
 
-		$fields->AddFieldToTab("Root.Main",
+		$fields->AddFieldToTab('Root.Main',
 			ColorPaletteField::create(
 				$name = 'Color',
 				$title = 'Color',
@@ -51,44 +60,62 @@ class ColorfulImage extends Image {
 		return $fields;
 	}
 
+	/**
+	 * Set the Color field to the dominant color by default
+	 */
 	public function populateDefaults() {
-		if ($this->ID && $this->getField('Color') === NULL) {
-			$this->Color = $this->getDominantColor();
-			$this->write();
+		if ($this->getField('Color') === NULL) {
+			$this->Color = $this->dominantColor();
 		}
 		parent::populateDefaults();
 	}
 
+	/**
+	 * Write the Color field to get the dominant color if not set
+	 */
 	public function onBeforeWrite() {
 		if ($this->getField('Color') === NULL) {
-			$this->Color = $this->getDominantColor();
+			$this->Color = $this->dominantColor();
 		}
 		parent::onBeforeWrite();
 	}
 
-	protected function getDominantColor() {
+	/**
+	 * Get the primary dominant color of this Image
+	 * @return String
+	 */
+	public function dominantColor() {
 		$c = ColorThief::getColor(
 			$sourceImage = $this->getFullPath(),
 			$quality = $this->config()->quality
 		);
-		return self::arrayToHex($c);
+		return self::array_to_hex($c);
 	}
 
-	protected function getDominantColorPalette($colorCount = 5) {
+	/**
+	 * Get the dominant colors of this Image
+	 * @param Int $colorCount Count of colors to return
+	 * @return Array
+	 */
+	public function dominantColorPalette($colorCount = 5) {
 		$c = ColorThief::getPalette(
 			$sourceImage = $this->getFullPath(),
 			$colorCount = $colorCount,
 			$quality = $this->config()->quality
 		);
-		return array_map(array(get_class($this), 'arrayToHex'), $c);
+		return array_map(array(get_class($this), 'array_to_hex'), $c);
 	}
 
 	/**
-	 *
+	 * Get contrast color of a passed color
 	 * @see https://24ways.org/2010/calculating-color-contrast/
+	 * @param {Array|String} $color
+	 * @return String 'black' or 'white'
 	 */
-	protected static function getContrastYIQ($color) {
-		$color = self::hexToArray($color);
+	public static function get_contrast_yiq($color) {
+		if (is_string($color)) {
+			$color = self::hex_to_array($color);
+		}
 		$yiq = (($color[0]*299)+($color[1]*587)+($color[2]*114))/1000;
 		return ($yiq >= 128) ? 'black' : 'white';
 	}
@@ -96,9 +123,9 @@ class ColorfulImage extends Image {
 	/**
 	 * Converts a color array into a hex string
 	 * @param $color (array) (red, blue, green)
-	 * @return (string)
+	 * @return String
 	 */
-	private static function arrayToHex($color) {
+	protected static function array_to_hex($color) {
 		if (empty($color)) {
 			return NULL;
 		}
@@ -111,7 +138,7 @@ class ColorfulImage extends Image {
 	 * @param $color (string)
 	 * @return (array) (red, blue, green)
 	 */
-	private static function hexToArray($color) {
+	protected static function hex_to_array($color) {
 		$r = hexdec(substr($color, 0, 2));
 		$g = hexdec(substr($color, 2, 2));
 		$b = hexdec(substr($color, 4, 2));
