@@ -64,7 +64,7 @@ class ColorfulImage extends Image {
 	 * Set the Color field to the dominant color by default
 	 */
 	public function populateDefaults() {
-		if ($this->getField('Color') === NULL) {
+		if (!$this->Filename && $this->getField('Color') === NULL) {
 			$this->Color = $this->dominantColor();
 		}
 		parent::populateDefaults();
