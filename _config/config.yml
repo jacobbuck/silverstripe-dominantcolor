@@ -1,6 +1,6 @@
-ColorfulImage:
+ColorfulImageExtension:
   quality: 10
 
-Injector:
-  Image:
-    class: ColorfulImage
+Image:
+  extensions:
+    - ColorfulImageExtension
