@@ -1,6 +1,6 @@
-ColorfulImageExtension:
+DominantColorImageExtension:
   quality: 10
 
 Image:
   extensions:
-    - ColorfulImageExtension
+    - DominantColorImageExtension
