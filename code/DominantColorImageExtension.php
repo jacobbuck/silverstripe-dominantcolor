@@ -4,7 +4,6 @@ use ColorThief\ColorThief;
 
 class DominantColorImageExtension extends Extension
 {
-
     /**
      * Get contrast color to `Color` field
      * @return String 'black' or 'white'
@@ -57,10 +56,8 @@ class DominantColorImageExtension extends Extension
      */
     protected static function toHexString($color)
     {
-        if (empty($color)) {
-            return null;
-        }
-        $hex = dechex(($color[0]<<16)|($color[1]<<8)|$color[2]);
+        if (empty($color)) return null;
+        $hex = dechex(($color[0] << 16) | ($color[1] << 8) | $color[2]);
         return '#' . str_pad($hex, 6, '0', STR_PAD_LEFT);
     }
 
@@ -72,7 +69,8 @@ class DominantColorImageExtension extends Extension
      */
     protected static function contrastYIQ($color)
     {
-        $yiq = (($color[0]*299)+($color[1]*587)+($color[2]*114))/1000;
+        if (empty($color)) return null;
+        $yiq = (($color[0] * 299) + ($color[1] * 587) + ($color[2] * 114)) / 1000;
         return ($yiq >= 128) ? 'black' : 'white';
     }
 }
