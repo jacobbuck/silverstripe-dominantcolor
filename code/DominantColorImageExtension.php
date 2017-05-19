@@ -8,7 +8,7 @@ class DominantColorImageExtension extends Extension
      * Get contrast color to `Color` field
      * @return String 'black' or 'white'
      */
-    public function getContrastColor()
+    public function ContrastColor()
     {
         return self::contrastYIQ($this->dominantColor());
     }
@@ -17,14 +17,14 @@ class DominantColorImageExtension extends Extension
      * Get the primary dominant color of this Image
      * @return String
      */
-    public function getDominantColor()
+    public function DominantColor()
     {
         return self::toHexString($this->dominantColor());
     }
 
     /**
      * Get the primary dominant color of this Image
-     * @return Array (red, blue, green)
+     * @return Array (red, green, blue)
      */
     protected function dominantColor()
     {
@@ -51,12 +51,12 @@ class DominantColorImageExtension extends Extension
 
     /**
      * Converts a color array into a hex string
-     * @param Array $color (red, blue, green)
+     * @param Array $color (red, green, blue)
      * @return String
      */
     protected static function toHexString($color)
     {
-        if (empty($color)) return null;
+        if (empty($color)) return false;
         $hex = dechex(($color[0] << 16) | ($color[1] << 8) | $color[2]);
         return '#' . str_pad($hex, 6, '0', STR_PAD_LEFT);
     }
@@ -69,7 +69,7 @@ class DominantColorImageExtension extends Extension
      */
     protected static function contrastYIQ($color)
     {
-        if (empty($color)) return null;
+        if (empty($color)) return false;
         $yiq = (($color[0] * 299) + ($color[1] * 587) + ($color[2] * 114)) / 1000;
         return ($yiq >= 128) ? 'black' : 'white';
     }
