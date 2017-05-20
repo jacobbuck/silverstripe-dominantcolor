@@ -4,34 +4,34 @@ Enhance the Image class by providing the dominant color from an image, and the c
 
 Uses [Color Thief PHP](https://github.com/ksubileau/color-thief-php).
 
-# Usage
+## Usage
 
 Adds the following methods to `Image`:
 
-## `DominantColor()`
+### `DominantColor()`
 
 Returns the primary dominant color of this Image as hex (i.e. `'#bada55'`.)
 
-## `IsDark()`
+### `IsDark()`
 
 Returns `true` if the primary dominant color is dark.
 
-## `IsLight()`
+### `IsLight()`
 
 Returns `true` if the primary dominant color is light.
 
-## `ContrastColor($dark, $light)`
+### `ContrastColor($dark, $light)`
 
 Returns the contrast color to the dominant color as `$dark` if light or `$light` if dark.
 
 Defaults `$dark` to `'black'` and `$light` to `'white'`.
 
-# Requirements
+## Requirements
 
 - Silverstripe 3+
 - GD, Imagick or Gmagick
 
-# Installation
+## Installation
 
 The recommended way to install is through Composer:
 
