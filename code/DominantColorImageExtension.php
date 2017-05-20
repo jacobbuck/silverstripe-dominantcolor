@@ -5,7 +5,13 @@ use ColorThief\ColorThief;
 class DominantColorImageExtension extends Extension
 {
     /**
-     * Get contrast color to `Color` field
+     * Calculation accuracy of the dominant color
+     * @var Int
+     */
+    static public $quality = 10;
+
+    /**
+     * Get contrast color to the dominant color
      * @return String 'black' or 'white'
      */
     public function ContrastColor()
@@ -15,7 +21,7 @@ class DominantColorImageExtension extends Extension
 
     /**
      * Get the primary dominant color of this Image
-     * @return String
+     * @return String color as hex i.e. #ff0000
      */
     public function DominantColor()
     {
@@ -24,7 +30,7 @@ class DominantColorImageExtension extends Extension
 
     /**
      * Get the primary dominant color of this Image
-     * @return Array (red, green, blue)
+     * @return Array [red, green, blue]
      */
     protected function dominantColor()
     {
@@ -51,8 +57,8 @@ class DominantColorImageExtension extends Extension
 
     /**
      * Converts a color array into a hex string
-     * @param Array $color (red, green, blue)
-     * @return String
+     * @param Array $color [red, green, blue]
+     * @return String color as hex i.e. #ff0000
      */
     protected static function toHexString($color)
     {
@@ -64,7 +70,8 @@ class DominantColorImageExtension extends Extension
     /**
      * Get contrast color of a passed color
      * @see https://24ways.org/2010/calculating-color-contrast/
-     * @param Array $color
+     * @see https://www.w3.org/TR/AERT#color-contrast
+     * @param Array $color [red, green, blue]
      * @return String 'black' or 'white'
      */
     protected static function contrastYIQ($color)
