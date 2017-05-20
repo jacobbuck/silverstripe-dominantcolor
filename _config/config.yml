@@ -1,6 +1,3 @@
-DominantColorImageExtension:
-  quality: 10
-
 Image:
   extensions:
     - DominantColorImageExtension
