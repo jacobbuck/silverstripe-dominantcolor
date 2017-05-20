@@ -1,6 +1,6 @@
 {
   "name": "jacobbuck/silverstripe-dominantcolor",
-  "description": "Enhance the Image class by providing the dominant color from an image, and the contrast color of the dominant color.",
+  "description": "Enhance the Image class by providing the dominant color from an image.",
   "license": "MIT",
   "type": "silverstripe-module",
   "keywords": ["color", "image", "photo", "silverstripe"],
