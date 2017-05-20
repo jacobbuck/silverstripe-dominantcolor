@@ -4,9 +4,18 @@ Enhance the Image class by providing the dominant color from an image. Uses [Col
 
 ## Usage
 
-Adds the `DominantColor()` method to `Image`:
+Adds the `DominantColor()` method to `Image` which the primary dominant color of this Image as hex (i.e. `'#bada55'`.)
 
-Returns the primary dominant color of this Image as hex (i.e. `'#bada55'`.)
+```html
+  ...
+  <div style="background-color:$SomeImage.DominantColor">
+  ...
+```
+
+```php
+    ...
+    $color = Image::get()->find(...).DominantColor();
+```
 
 ## Requirements
 
