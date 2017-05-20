@@ -4,6 +4,9 @@ use ColorThief\ColorThief;
 
 class DominantColorImageExtension extends Extension
 {
+    const DARK = 'DARK';
+    const LIGHT = 'LIGHT';
+
     /**
      * Calculation accuracy of the dominant color
      * @var Int
@@ -12,11 +15,16 @@ class DominantColorImageExtension extends Extension
 
     /**
      * Get contrast color to the dominant color
-     * @return String 'black' or 'white'
+     * @param String $dark Color to return if contrast is dark
+     * @param String $light Color to return if contrast is light
+     * @return String $dark or $light
      */
-    public function ContrastColor()
+    public function ContrastColor($dark = 'black', $light = 'white')
     {
-        return self::contrastYIQ($this->dominantColor());
+        $contrast = self::contrastYIQ($this->dominantColor());
+        if ($contrast === self::DARK) return $dark;
+        if ($contrast === self::LIGHT) return $light;
+        return false;
     }
 
     /**
@@ -25,7 +33,25 @@ class DominantColorImageExtension extends Extension
      */
     public function DominantColor()
     {
-        return self::toHexString($this->dominantColor());
+        return self::colorToHex($this->dominantColor());
+    }
+
+    /**
+     * Determine if the dominant color is dark
+     * @return Boolean
+     */
+    public function IsDark()
+    {
+        return self::contrastYIQ($this->dominantColor()) === self::LIGHT;
+    }
+
+    /**
+     * Determine if the dominant color is light
+     * @return Boolean
+     */
+    public function IsLight()
+    {
+        return self::contrastYIQ($this->dominantColor()) === self::DARK;
     }
 
     /**
@@ -41,9 +67,7 @@ class DominantColorImageExtension extends Extension
 
         $cached = $cache->load($cacheKey);
 
-        if ($cached) {
-            return explode(',', $cached);
-        }
+        if ($cached) return explode(',', $cached);
 
         $color = ColorThief::getColor(
             $sourceImage = $sourceImage,
@@ -60,7 +84,7 @@ class DominantColorImageExtension extends Extension
      * @param Array $color [red, green, blue]
      * @return String color as hex i.e. #ff0000
      */
-    protected static function toHexString($color)
+    protected static function colorToHex($color)
     {
         if (empty($color)) return false;
         $hex = dechex(($color[0] << 16) | ($color[1] << 8) | $color[2]);
@@ -72,12 +96,12 @@ class DominantColorImageExtension extends Extension
      * @see https://24ways.org/2010/calculating-color-contrast/
      * @see https://www.w3.org/TR/AERT#color-contrast
      * @param Array $color [red, green, blue]
-     * @return String 'black' or 'white'
+     * @return String
      */
     protected static function contrastYIQ($color)
     {
         if (empty($color)) return false;
         $yiq = (($color[0] * 299) + ($color[1] * 587) + ($color[2] * 114)) / 1000;
-        return ($yiq >= 128) ? 'black' : 'white';
+        return ($yiq >= 128) ? DARK : LIGHT;
     }
 }
