@@ -1,17 +1,17 @@
 {
-    "name": "jacobbuck/silverstripe-dominantcolor",
-    "description": "Enhance the Image class by providing the dominant color from an image, and the contrast color of the dominant color.",
-    "license": "MIT",
-    "type": "silverstripe-module",
-    "keywords": ["color", "image", "photo", "silverstripe"],
-    "authors": [
-        {
-            "name": "Jacob Buck",
-            "email": "buck.jacob@gmail.com"
-        }
-    ],
-    "require": {
-        "silverstripe/framework": "~3.1",
-        "ksubileau/color-thief-php": "~1.3"
+  "name": "jacobbuck/silverstripe-dominantcolor",
+  "description": "Enhance the Image class by providing the dominant color from an image, and the contrast color of the dominant color.",
+  "license": "MIT",
+  "type": "silverstripe-module",
+  "keywords": ["color", "image", "photo", "silverstripe"],
+  "authors": [
+    {
+      "name": "Jacob Buck",
+      "email": "buck.jacob@gmail.com"
     }
+  ],
+  "require": {
+    "silverstripe/framework": "~3.1",
+    "ksubileau/color-thief-php": "~1.3"
+  }
 }
