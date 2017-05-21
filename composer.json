@@ -3,13 +3,14 @@
   "description": "Enhance the Image class by providing the dominant color from an image.",
   "license": "MIT",
   "type": "silverstripe-module",
+  "homepage": "http://github.com/jacobbuck/silverstripe-dominantcolor",
   "keywords": ["color", "image", "photo", "silverstripe"],
   "authors": [
-    {
-      "name": "Jacob Buck",
-      "email": "buck.jacob@gmail.com"
-    }
+    {"name": "Jacob Buck", "email": "buck.jacob@gmail.com"}
   ],
+  "support": {
+    "issues": "http://github.com/jacobbuck/silverstripe-dominantcolor/issues"
+  },
   "require": {
     "silverstripe/framework": "~3.1",
     "ksubileau/color-thief-php": "~1.3"
