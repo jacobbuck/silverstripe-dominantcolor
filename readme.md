@@ -14,7 +14,7 @@ Adds the `DominantColor()` method to `Image` which the primary dominant color of
 
 ```php
 …
-$color = Image::get()->find(…).DominantColor();
+$color = Image::get()->find(…)->DominantColor();
 …
 ```
 
